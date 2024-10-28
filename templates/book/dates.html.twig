@@ -1,0 +1,101 @@
+{# templates/book/books_between_dates.html.twig #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livres publiés entre les deux dates</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        td:first-child {
+            font-weight: bold;
+            color: #555;
+            width: 30%;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            table, tr, td {
+                display: block;
+                width: 100%;
+            }
+
+            td:first-child {
+                text-align: right;
+                padding-right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Livres publiés entre les deux dates</h1>
+
+    {{ form_start(form) }}
+    <div>
+        {{ form_widget(form.startDate) }}
+        {{ form_widget(form.endDate) }}
+        <input type="submit" value="Rechercher">
+    </div>
+    {{ form_end(form) }}
+
+    <ul>
+        {% for book in books %}
+            <li>{{ book.title }} ({{ book.publicationDate|date('d/m/Y') }})</li>
+        {% else %}
+            <li>Aucun livre trouvé entre ces dates.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
