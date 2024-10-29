@@ -40,6 +40,15 @@ class AuthorRepository extends ServiceEntityRepository
       return $qb->getQuery()->execute(); // Execute the delete query
   }
 
+  // // 1) Atelier QueryBuilder : Method to list authors ordered by email
+  public function listAuthorByEmail(): array
+  {
+      return $this->createQueryBuilder('a')
+          ->orderBy('a.email', 'ASC') //Asc=>ascending
+          ->getQuery()
+          ->getResult();
+  }
+
 //    /**
 //     * @return Author[] Returns an array of Author objects
 //     */

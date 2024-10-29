@@ -84,11 +84,11 @@ class AuthorController extends AbstractController
     #[Route('/addAuthor', name: 'addAuthor', methods: ['GET'])]
     public function addAuthor(ManagerRegistry $doctrine): Response{
          $author=new Author();
-        $author->setUsername('Mohameddd');
-        $author->setEmail('Mohamed@esprit.tn');
-        $author->setPicture('Mohamed.png');
+        $author->setUsername('ahmed');
+        $author->setEmail('ahmed@esprit.tn');
+        $author->setPicture('ahmed.png');
         
-        $author->setNb_Books(0);
+        $author->setNb_Books(50);
          //2.create a copy of the doctrine with entityManager: $em
         //2.a: use Doctrine\Persistence\ManagerRegistry;
         $em=$doctrine->getManager();
@@ -140,6 +140,19 @@ public function deleteAuthorsWithNoBooks(AuthorRepository $authorRepo): Response
 
     // Redirect back to the author list page
     return $this->redirectToRoute('app_authorList');
+}
+
+//1) Atelier Query Builder
+#[Route('/authorListByEmail', name: 'app_authorListByEmail', methods: ['GET'])]
+public function AuthorListByEmail(AuthorRepository $authorRepo): Response
+{
+    // Fetch authors ordered by email
+    $authors = $authorRepo->listAuthorByEmail(); 
+
+    // Render the view with the sorted list of authors
+    return $this->render('author/authorListByEmail.html.twig', [
+        'authors' => $authors,
+    ]);
 }
     
 }

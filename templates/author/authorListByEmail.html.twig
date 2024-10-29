@@ -25,10 +25,10 @@
                 <form method="get" class="mb-4">
                     <div class="form-row">
                         <div class="col">
-                            <input type="number" name="min_books" class="form-control" placeholder="Min livres" value="{{ app.request.get('min_books') }}">
+                            <input type="number" name="min_books" class="form-control" placeholder="Min livres" value="{{ app.request.get('min_books') | e }}">
                         </div>
                         <div class="col">
-                            <input type="number" name="max_books" class="form-control" placeholder="Max livres" value="{{ app.request.get('max_books') }}">
+                            <input type="number" name="max_books" class="form-control" placeholder="Max livres" value="{{ app.request.get('max_books') | e }}">
                         </div>
                         <div class="col">
                             <button type="submit" class="btn btn-primary">Rechercher</button>
@@ -41,7 +41,7 @@
                         <h4 class="alert-heading">Aucun auteur disponible.</h4>
                     </div>
                 {% else %}
-                 <td><a href="{{ path('app_authorListByEmail')}}">Tri par ordre ascendant </a></td>
+                   <td><a href="{{ path('app_authorListByEmail')}}">Tri par ordre ascendant </a></td>
                     <!-- Responsive Table -->
                     <div class="table-responsive">
                         <table class="table table-dark table-striped table-bordered text-center">
@@ -58,21 +58,23 @@
                             <tbody>
                                 {% for author in authors %}
                                     <tr>
-                                        <td>{{ author.username | upper }}</td>
-                                        <td>{{ author.email }}</td>
-                                         <td>{{ author.nb_books }}</td>
-                                        <td><a href="{{ path('author_details', { id: author.id }) }}">Détails</a></td>
-                                        <td><a href="{{ path('updateAuthor', { id: author.id }) }}">Modifier</a></td>
-                                        <td><a href="{{ path('deleteAuthor', { id: author.id }) }}">Supprimer</a></td>
+                                        <td>{{ author.username | upper | e }}</td>  {# Escape username #}
+                                        <td>{{ author.email | e }}</td>            {# Escape email #}
+                                        <td>{{ author.nb_books | e }}</td>         {# Escape nb_books #}
+                                        <td><a href="{{ path('author_details', { id: author.id }) | e }}">Détails</a></td> {# Escape URL #}
+                                        <td><a href="{{ path('updateAuthor', { id: author.id }) | e }}">Modifier</a></td> {# Escape URL #}
+                                        <td><a href="{{ path('deleteAuthor', { id: author.id }) | e }}">Supprimer</a></td> {# Escape URL #}
                                     </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
- <!-- Button to delete authors with no books -->
-                    <form action="{{ path('delete_authors_with_no_books') }}" method="post" class="text-center mt-4">
+
+                    <!-- Button to delete authors with no books -->
+                    <form action="{{ path('delete_authors_with_no_books') | e }}" method="post" class="text-center mt-4"> {# Escape URL #}
                         <button type="submit" class="btn btn-danger">Supprimer les auteurs sans livres</button>
                     </form>
+
                     <!-- Total Authors and Books -->
                     <p class="mt-3 text-center">
                         Le nombre total d'auteurs est : <span class="badge badge-info">{{ authors|length }}</span>
